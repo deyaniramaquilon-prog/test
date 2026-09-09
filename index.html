@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>💗 Nuestro espacio</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffe5ef, #f3ddff);
+  color: #49333e;
+}
+
+.contenedor {
+  max-width: 700px;
+  width: 92%;
+  margin: auto;
+  padding: 30px 0 50px;
+}
+
+.tarjeta {
+  background: white;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 12px 35px rgba(90, 40, 70, .15);
+}
+
+.centro {
+  text-align: center;
+}
+
+.corazon {
+  font-size: 55px;
+}
+
+h1 {
+  color: #d65386;
+  font-size: 32px;
+}
+
+h2 {
+  color: #c74779;
+}
+
+.descripcion {
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #f0cbd9;
+  border-radius: 15px;
+  font-size: 16px;
+  margin: 8px 0 15px;
+  font-family: inherit;
+  outline: none;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
+  border-color: #d65386;
+}
+
+button {
+  border: none;
+  border-radius: 15px;
+  padding: 15px 22px;
+  background: #d65386;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #c74779;
+}
+
+.oculto {
+  display: none;
+}
+
+.numero {
+  color: #9b7182;
+  font-size: 14px;
+}
+
+.progreso {
+  height: 10px;
+  background: #f3dce5;
+  border-radius: 20px;
+  margin: 12px 0 25px;
+  overflow: hidden;
+}
+
+.barra {
+  height: 100%;
+  width: 0;
+  background: #d65386;
+  transition: .3s;
+}
+
+.pregunta {
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.opciones {
+  display: grid;
+  gap: 12px;
+}
+
+.opcion {
+  background: #fff4f7;
+  color: #573c48;
+  border: 2px solid #f1d2de;
+  text-align: left;
+  margin: 0;
+}
+
+.opcion:hover {
+  background: #ffe6ef;
+}
+
+.opcion.seleccionada {
+  background: #d65386;
+  color: white;
+  border-color: #d65386;
+}
+
+.otro {
+  margin-top: 18px;
+}
+
+.navegacion {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.atras {
+  background: #ead9e1;
+  color: #654653;
+}
+
+.resultado-box {
+  background: #fff1f6;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.coincidencia {
+  background: #f3e7ff;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.nota {
+  color: #866875;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media(max-width:500px) {
+  .tarjeta {
+    padding: 21px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  .pregunta {
+    font-size: 19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<!-- INICIO -->
+<section id="inicio" class="tarjeta centro">
+
+<div class="corazon">💗</div>
+
+<h1>Nuestro espacio</h1>
+
+<p class="descripcion">
+Este no es un examen y no existen respuestas correctas.
+Es un espacio para entendernos mejor, saber qué necesitamos
+y descubrir pequeñas cosas que podemos hacer por el otro.
+</p>
+
+<p><strong>¿Quién va a responder?</strong></p>
+
+<input
+id="nombre"
+type="text"
+placeholder="Escribe tu nombre"
+maxlength="30"
+>
+
+<button onclick="comenzar()">
+Comenzar 💕
+</button>
+
+<p class="nota">
+Responde pensando en lo que realmente te gustaría recibir
+y sentir dentro de nuestra relación.
+</p>
+
+</section>
+
+
+<!-- TEST -->
+<section id="test" class="tarjeta oculto">
+
+<div class="numero" id="numero"></div>
+
+<div class="progreso">
+<div class="barra" id="barra"></div>
+</div>
+
+<div class="pregunta" id="pregunta"></div>
+
+<div class="opciones" id="opciones"></div>
+
+<div class="otro">
+<label><strong>💭 Si quieres, puedes explicar un poquito más:</strong></label>
+
+<textarea
+id="explicacion"
+placeholder="Escribe aquí lo que te gustaría que tu pareja entendiera..."
+></textarea>
+</div>
+
+<div class="navegacion">
+
+<button class="atras" onclick="atras()">
+← Atrás
+</button>
+
+<button onclick="siguiente()">
+Siguiente →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- RESULTADO -->
+<section id="resultado" class="tarjeta oculto centro">
+
+<div class="corazon">💞</div>
+
+<h1>Gracias por responder</h1>
+
+<p>
+<strong id="nombreFinal"></strong>, tus respuestas ya están listas.
+</p>
+
+<div class="resultado-box">
+
+<h2>💗 Lo que necesitas</h2>
+
+<p>
+Tus respuestas muestran las cosas que más valoras,
+necesitas y te gustaría recibir dentro de la relación.
+</p>
+
+</div>
+
+<div class="coincidencia">
+
+<h2>🫶 ¿Y ahora qué?</h2>
+
+<p>
+La idea de este test no es poner una nota a la relación.
+Es ayudarnos a entender qué necesita cada uno.
+</p>
+
+<p>
+Cuando los dos hayan respondido, podremos comparar
+sus respuestas y descubrir en qué coinciden y qué cosas
+pueden conversar juntos.
+</p>
+
+</div>
+
+<button onclick="location.reload()">
+Volver al inicio 💗
+</button>
+
+<p class="nota">
+Tus respuestas quedan guardadas en este dispositivo.
+En el siguiente paso conectaremos la página para que
+las respuestas de los dos puedan verse desde sus casas.
+</p>
+
+</section>
+
+</div>
+
+
+<script>
+
+const preguntas = [
+
+{
+texto: "Cuando me siento triste, me gustaría que mi pareja...",
+opciones: [
+"Me abrace y me dé cariño 🫂",
+"Me pregunte qué me pasa y me escuche 💬",
+"Se quede conmigo aunque no quiera hablar 🤍",
+"Me dé un poquito de espacio 🌷",
+"Me distraiga y me ayude a sentirme mejor 😊"
+]
+},
+
+{
+texto: "Cuando tengo un día difícil, me gustaría que mi pareja...",
+opciones: [
+"Me pregunte cómo estuvo mi día 💗",
+"Me escuche sin juzgarme 👂",
+"Me dé cariño y compañía 🫂",
+"Me ayude a olvidarme un rato del problema 😊",
+"Simplemente esté presente conmigo 🤍"
+]
+},
+
+{
+texto: "Cuando estoy enojado/a, prefiero que mi pareja...",
+opciones: [
+"Me hable con calma 🗣️",
+"Me dé un momento para tranquilizarme 🌷",
+"Intente entender por qué estoy así 🤍",
+"Me dé cariño aunque esté molesto/a 🫂",
+"Espere hasta que pueda hablar tranquilamente"
+]
+},
+
+{
+texto: "Cuando tenemos una discusión, me gustaría que...",
+opciones: [
+"Hablemos sin gritarnos 🗣️",
+"Ambos podamos explicar cómo nos sentimos 💬",
+"No nos alejemos emocionalmente 🤍",
+"Nos demos un tiempo y después hablemos 🌷",
+"Recordemos que estamos del mismo lado 🫶"
+]
+},
+
+{
+texto: "Cuando siento inseguridad, necesito que mi pareja...",
+opciones: [
+"Me dé tranquilidad con sus palabras 💗",
+"Me escuche y no se burle de lo que siento 🤍",
+"Me dé cariño 🫂",
+"Me recuerde que me quiere 💕",
+"Me ayude a entender lo que estoy sintiendo"
+]
+},
+
+{
+texto: "Cuando necesito espacio, me gustaría que mi pareja...",
+opciones: [
+"Respete mi espacio sin enojarse 🤍",
+"Me pregunte si estoy bien y después me dé tiempo",
+"Entienda que necesitar espacio no significa dejar de querer",
+"Me dé unas horas y después hablemos",
+"Me pregunte qué necesito exactamente 💬"
+]
+},
+
+{
+texto: "Una forma en la que me gustaría sentirme querido/a es...",
+opciones: [
+"Recibiendo abrazos y cariño 🫂",
+"Recibiendo palabras bonitas 💕",
+"Pasando tiempo juntos 🥰",
+"Recibiendo pequeños detalles 🌷",
+"Que me escuchen y me presten atención 👂"
+]
+},
+
+{
+texto: "Cuando te cuento algo importante para mí, me gustaría que...",
+opciones: [
+"Me escuches con atención 👂",
+"Me hagas preguntas porque te interesa 💬",
+"Me apoyes aunque no estés de acuerdo",
+"Recuerdes las cosas que te cuento 🤍",
+"Me hagas sentir que lo que digo importa"
+]
+},
+
+{
+texto: "Algo que me gustaría que hiciéramos más juntos es...",
+opciones: [
+"Hablar de cómo nos sentimos 💬",
+"Pasar tiempo de calidad 🥰",
+"Salir o hacer cosas diferentes 🌷",
+"Demostrarnos más cariño 🫂",
+"Reírnos y divertirnos juntos 😂"
+]
+},
+
+{
+texto: "Cuando cometo un error, me gustaría que mi pareja...",
+opciones: [
+"Me explique cómo se sintió sin atacarme 🤍",
+"Me dé la oportunidad de corregirlo",
+"Me escuche cuando explique lo que pasó",
+"Me recuerde que equivocarme no significa que no me quiera",
+"Lo hable conmigo con calma 🗣️"
+]
+},
+
+{
+texto: "Algo que quisiera que mi pareja entendiera mejor de mí es...",
+opciones: [
+"Cómo reacciono cuando estoy triste",
+"Cómo necesito recibir cariño",
+"Qué cosas me hacen sentir inseguro/a",
+"Cuándo necesito espacio",
+"Qué cosas me hacen sentir realmente amado/a"
+]
+},
+
+{
+texto: "Algo que me gustaría mejorar juntos en nuestra relación es...",
+opciones: [
+"La comunicación 💬",
+"La confianza 🤍",
+"El respeto por nuestro espacio",
+"La forma de solucionar las discusiones",
+"La manera en que demostramos cariño 💗"
+]
+},
+
+{
+texto: "Cuando necesito apoyo, me gustaría que mi pareja...",
+opciones: [
+"Me escuche 👂",
+"Me abrace 🫂",
+"Me pregunte qué necesito",
+"Me ayude a buscar una solución",
+"Simplemente se quede conmigo 🤍"
+]
+},
+
+{
+texto: "Una cosa que me gustaría recibir más en nuestra relación es...",
+opciones: [
+"Más cariño 🫂",
+"Más comunicación 💬",
+"Más tiempo juntos 🥰",
+"Más confianza 🤍",
+"Más comprensión 🌷"
+]
+},
+
+{
+texto: "Cuando estamos juntos, algo que me hace sentir especial es...",
+opciones: [
+"Que me prestes atención 💗",
+"Que me abraces 🫂",
+"Que hagamos cosas juntos 🥰",
+"Que me digas cosas bonitas 💕",
+"Que podamos ser nosotros mismos 🤍"
+]
+},
+
+{
+texto: "Si pudiera pedirte una pequeña cosa para hacerme sentir mejor, sería...",
+opciones: [
+"Que me escuches",
+"Que me abraces",
+"Que me hables con cariño",
+"Que pases un poquito de tiempo conmigo",
+"Que me preguntes qué necesito"
+]
+},
+
+{
+texto: "Cuando estamos lejos, me gustaría sentir que...",
+opciones: [
+"Seguimos conectados 💗",
+"Podemos hablar de nuestro día 💬",
+"Nos seguimos demostrando cariño 🫂",
+"Podemos confiar el uno en el otro 🤍",
+"Tenemos nuestro propio espacio sin dejar de querernos"
+]
+},
+
+{
+texto: "Algo que quiero que nunca perdamos como pareja es...",
+opciones: [
+"La confianza 🤍",
+"El cariño 🫂",
+"La comunicación 💬",
+"Las risas 😂",
+"Las ganas de mejorar juntos 💕"
+]
+},
+
+{
+texto: "Una frase que me gustaría escuchar de mi pareja cuando estoy mal es...",
+opciones: [
+"Estoy aquí contigo 🤍",
+"Te escucho",
+"No estás solo/a 🫂",
+"Vamos a solucionar esto juntos",
+"Te quiero aunque estés pasando por un mal momento 💗"
+]
+},
+
+{
+texto: "Si pudieras cambiar una pequeña cosa para que nuestra relación se sienta mejor, ¿qué elegirías?",
+opciones: [
+"Hablar más de nuestros sentimientos 💬",
+"Ser más cariñosos 🫂",
+"Respetar más nuestro espacio 🤍",
+"Tener más tiempo de calidad 🥰",
+"Aprender a discutir de una manera más sana"
+]
+}
+
+];
+
+
+let nombre = "";
+let actual = 0;
+let respuestas = [];
+
+function comenzar() {
+
+nombre = document.getElementById("nombre").value.trim();
+
+if (!nombre) {
+alert("Escribe tu nombre 💗");
+return;
+}
+
+document.getElementById("inicio").classList.add("oculto");
+document.getElementById("test").classList.remove("oculto");
+
+mostrar();
+
+}
+
+
+function mostrar() {
+
+const p = preguntas[actual];
+
+document.getElementById("numero").textContent =
+"Pregunta " + (actual + 1) + " de " + preguntas.length;
+
+document.getElementById("pregunta").textContent =
+p.texto;
+
+document.getElementById("barra").style.width =
+((actual / preguntas.length) * 100) + "%";
+
+const contenedor =
+document.getElementById("opciones");
+
+contenedor.innerHTML = "";
+
+p.opciones.forEach((opcion, indice) => {
+
+const boton = document.createElement("button");
+
+boton.className = "opcion";
+
+boton.textContent = opcion;
+
+if (
+respuestas[actual] &&
+respuestas[actual].opcion === indice
+) {
+boton.classList.add("seleccionada");
+}
+
+boton.onclick = function() {
+
+respuestas[actual] = {
+opcion: indice,
+texto: opcion,
+explicacion:
+document.getElementById("explicacion").value
+};
+
+document
+.querySelectorAll(".opcion")
+.forEach(b => b.classList.remove("seleccionada"));
+
+boton.classList.add("seleccionada");
+
+};
+
+contenedor.appendChild(boton);
+
+});
+
+
+if (respuestas[actual]) {
+
+document.getElementById("explicacion").value =
+respuestas[actual].explicacion || "";
+
+} else {
+
+document.getElementById("explicacion").value = "";
+
+}
+
+}
+
+
+function siguiente() {
+
+const seleccion =
+respuestas[actual];
+
+if (!seleccion) {
+
+alert("Elige la opción que más se parezca a lo que tú necesitas 💗");
+
+return;
+
+}
+
+seleccion.explicacion =
+document.getElementById("explicacion").value;
+
+if (actual < preguntas.length - 1) {
+
+actual++;
+
+mostrar();
+
+} else {
+
+terminar();
+
+}
+
+}
+
+
+function atras() {
+
+if (actual > 0) {
+
+respuestas[actual].explicacion =
+document.getElementById("explicacion").value;
+
+actual--;
+
+mostrar();
+
+}
+
+}
+
+
+function terminar() {
+
+document.getElementById("test").classList.add("oculto");
+
+document.getElementById("resultado").classList.remove("oculto");
+
+document.getElementById("nombreFinal").textContent =
+nombre;
+
+const datos = {
+nombre: nombre,
+respuestas: respuestas,
+fecha: new Date().toLocaleString()
+};
+
+localStorage.setItem(
+"testPareja_" + nombre,
+JSON.stringify(datos)
+);
+
+}
+
+</script>
+
+</body>
+</html>
